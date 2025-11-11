@@ -1,5 +1,6 @@
+### Cloud Resource Orchestrator 🚀
+
 ```markdown
-# Cloud Resource Orchestrator 🚀
 
 [![CI/CD Pipeline](https://github.com/sorabhlahoti/cloud-orchestrator/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/sorabhlahoti/cloud-orchestrator/actions/workflows/ci-cd.yaml)
 [![Go Version](https://img.shields.io/badge/Go-1.24.3-00ADD8?logo=go)](https://go.dev/)
@@ -7,15 +8,16 @@
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-326CE5?logo=kubernetes)](https://kubernetes.io/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A production-ready, cloud-native resource orchestration API built with Go, demonstrating modern microservices architecture, containerization, and observability patterns.
+> A production-ready, cloud-native resource orchestration API demonstrating modern microservices architecture, containerization, and observability patterns.
+
+---
 
 ## 📋 Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
 - [Architecture](#architecture)
-- [Technology Stack](#technology-stack)
-- [Getting Started](#getting-started)
+- [Quick Start](#quick-start)
 - [API Documentation](#api-documentation)
 - [Deployment](#deployment)
 - [Monitoring](#monitoring)
@@ -23,172 +25,155 @@ A production-ready, cloud-native resource orchestration API built with Go, demon
 - [Testing](#testing)
 - [CI/CD Pipeline](#cicd-pipeline)
 - [Project Structure](#project-structure)
+- [Technology Stack](#technology-stack)
 - [Future Enhancements](#future-enhancements)
-- [Contributing](#contributing)
 - [License](#license)
 
 ---
 
 ## 🎯 Overview
 
-The **Cloud Resource Orchestrator** is a RESTful API service that simulates cloud resource lifecycle management. It provides a control plane for provisioning, tracking, and managing resources through a clean HTTP interface, demonstrating the architectural patterns used in production cloud platforms.
+The **Cloud Resource Orchestrator** is a RESTful API service built with Go that demonstrates cloud resource lifecycle management patterns. It provides a control plane for provisioning, tracking, and managing resources through a clean HTTP interface.
 
 ### What This Project Demonstrates
 
-- ✅ **Backend Development**: Building scalable REST APIs with Go
-- ✅ **Cloud-Native Design**: Containerization and Kubernetes-ready deployment
-- ✅ **Observability**: Integrated Prometheus metrics and health monitoring
-- ✅ **DevOps Practices**: Complete CI/CD pipeline with automated testing
-- ✅ **Production Patterns**: Error handling, logging, concurrency management
+✅ **Backend Development** - Scalable REST API design with Go  
+✅ **Cloud-Native Architecture** - Containerization with Docker, Kubernetes-ready deployment  
+✅ **Observability** - Prometheus metrics integration and health monitoring  
+✅ **DevOps Best Practices** - Complete CI/CD pipeline with automated testing and security scanning  
+✅ **Production Patterns** - Error handling, logging, concurrent request management  
 
-### Use Case
+### Purpose
 
-While this is a proof-of-concept that manages logical resource entries rather than actual infrastructure, it demonstrates the **complete architecture** of a cloud orchestration system - from API design to deployment strategies.
+This is a **proof-of-concept** that simulates cloud orchestration patterns without actual infrastructure provisioning. It demonstrates the architectural foundations used in production cloud platforms like AWS, Azure, and GCP.
 
 ---
 
 ## ✨ Features
 
 ### Core Functionality
-- 🔄 **Resource Lifecycle Management**: Create, list, and delete resources via REST API
-- 🏥 **Health Monitoring**: Built-in health check endpoint for service monitoring
-- 📊 **Metrics Export**: Prometheus-compatible metrics for observability
-- 🔒 **Thread-Safe Operations**: Concurrent request handling with mutex locks
-- 📝 **Request Logging**: Comprehensive logging with timestamps and duration tracking
+- 🔄 **Resource Lifecycle Management** - Create, list, and delete resources via REST API
+- 🏥 **Health Monitoring** - Built-in health check endpoint for service monitoring
+- 📊 **Metrics Export** - Prometheus-compatible metrics endpoint
+- 🔒 **Thread-Safe Operations** - Concurrent request handling with mutex locks
+- 📝 **Request Logging** - Comprehensive logging with timestamps and duration tracking
+- ⚡ **Fast Response Times** - In-memory storage for instant operations
 
 ### DevOps & Infrastructure
-- 🐳 **Docker Support**: Fully containerized application
-- ☸️ **Kubernetes Ready**: Production-ready deployment manifests with health probes
-- 🔄 **CI/CD Automation**: GitHub Actions pipeline with testing, linting, and security scanning
-- 🎯 **Resource Management**: Kubernetes resource limits and requests configured
-- 📈 **Horizontal Scaling**: Multi-replica deployment support with load balancing
+- 🐳 **Fully Containerized** - Docker support with multi-stage builds
+- ☸️ **Kubernetes Ready** - Production-grade deployment manifests
+- 🔄 **CI/CD Automation** - GitHub Actions pipeline with 5 validation stages
+- 🎯 **Resource Management** - Configured CPU/memory limits and requests
+- 📈 **Auto-Scaling Ready** - Multi-replica deployment support
+- 🛡️ **Security Scanning** - Automated vulnerability detection with Trivy
 
 ### Code Quality
-- ✅ **Unit Tests**: Comprehensive test coverage with Go's testing framework
-- 🎨 **Code Formatting**: Automated `gofmt` checks in CI pipeline
-- 🔍 **Static Analysis**: Go vet integration for code quality
-- 🛡️ **Security Scanning**: Trivy vulnerability scanning
-- 📊 **Coverage Reports**: Automated test coverage generation
+- ✅ **Unit Tests** - Comprehensive test coverage
+- 🎨 **Code Formatting** - Automated `gofmt` checks
+- 🔍 **Static Analysis** - Go vet integration
+- 📊 **Coverage Reports** - Automated generation in CI
+- 📐 **Best Practices** - Clean architecture and error handling
 
 ---
 
 ## 🏗️ Architecture
 
-### System Design
+### High-Level Design
 
 ```
-┌─────────────┐
-│   Client    │
-└──────┬──────┘
-       │ HTTP/REST
-       ▼
-┌─────────────────────────────────┐
-│   Cloud Orchestrator API        │
-│   (Go HTTP Server)              │
-│                                 │
-│  ┌──────────────────────────┐  │
-│  │  REST Handlers           │  │
-│  │  ├─ Provision            │  │
-│  │  ├─ List                 │  │
-│  │  ├─ Delete               │  │
-│  │  └─ Health Check         │  │
-│  └──────────────────────────┘  │
-│                                 │
-│  ┌──────────────────────────┐  │
-│  │  Middleware Layer        │  │
-│  │  ├─ Logging              │  │
-│  │  └─ Metrics Collection   │  │
-│  └──────────────────────────┘  │
-│                                 │
-│  ┌──────────────────────────┐  │
-│  │  In-Memory Storage       │  │
-│  │  (Thread-Safe Map)       │  │
-│  └──────────────────────────┘  │
-└─────────────────────────────────┘
-       │
-       ▼
-┌─────────────┐
-│ Prometheus  │
-│  /metrics   │
-└─────────────┘
+┌─────────────────────────────────────────────────────────┐
+│                        Client                           │
+│                (Browser/curl/Postman)                   │
+└────────────────────┬────────────────────────────────────┘
+                     │ HTTP/REST
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│          Cloud Orchestrator API (Go)                    │
+│                                                         │
+│  ┌────────────────────────────────────────────────┐   │
+│  │           REST API Handlers                    │   │
+│  │  ┌──────────────┐  ┌──────────────┐          │   │
+│  │  │ Provision    │  │ List         │          │   │
+│  │  │ /provision   │  │ /resources   │          │   │
+│  │  └──────────────┘  └──────────────┘          │   │
+│  │  ┌──────────────┐  ┌──────────────┐          │   │
+│  │  │ Delete       │  │ Health Check │          │   │
+│  │  │ /resources/* │  │ /health      │          │   │
+│  │  └──────────────┘  └──────────────┘          │   │
+│  └────────────────────────────────────────────────┘   │
+│                                                         │
+│  ┌────────────────────────────────────────────────┐   │
+│  │         Middleware Layer                       │   │
+│  │  -  Request Logging                             │   │
+│  │  -  Metrics Collection                          │   │
+│  │  -  Error Handling                              │   │
+│  └────────────────────────────────────────────────┘   │
+│                                                         │
+│  ┌────────────────────────────────────────────────┐   │
+│  │      In-Memory Storage (Thread-Safe)           │   │
+│  │      map[int]Resource + sync.RWMutex           │   │
+│  └────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────┘
+                     │
+                     ▼
+              ┌─────────────┐
+              │ Prometheus  │
+              │  /metrics   │
+              └─────────────┘
 ```
 
-### Deployment Architecture (Kubernetes)
+### Kubernetes Deployment Architecture
 
 ```
-                    ┌─────────────┐
-                    │   Internet  │
-                    └──────┬──────┘
-                           │
-                    ┌──────▼──────────┐
-                    │  Load Balancer  │
-                    │   (Service)     │
-                    └──────┬──────────┘
-                           │
-            ┌──────────────┼──────────────┐
-            │              │              │
-      ┌─────▼─────┐  ┌────▼──────┐  ┌───▼──────┐
-      │   Pod 1   │  │   Pod 2   │  │  Pod N   │
-      │           │  │           │  │          │
-      │ Container │  │ Container │  │Container │
-      │  :8080    │  │  :8080    │  │ :8080    │
-      └───────────┘  └───────────┘  └──────────┘
-           │              │              │
-           └──────────────┼──────────────┘
-                          │
-                  ┌───────▼────────┐
-                  │   Prometheus   │
-                  │   Scraper      │
-                  └────────────────┘
+                    Internet
+                       │
+                ┌──────▼──────┐
+                │ LoadBalancer│
+                │  (Service)  │
+                └──────┬──────┘
+                       │
+        ┌──────────────┼──────────────┐
+        │              │              │
+   ┌────▼────┐    ┌───▼────┐    ┌───▼────┐
+   │  Pod 1  │    │ Pod 2  │    │ Pod N  │
+   │ :8080   │    │ :8080  │    │ :8080  │
+   └────┬────┘    └───┬────┘    └───┬────┘
+        │             │             │
+        └─────────────┼─────────────┘
+                      │
+              ┌───────▼────────┐
+              │   Prometheus   │
+              │    Scraper     │
+              └────────────────┘
 ```
 
 ---
 
-## 🛠️ Technology Stack
-
-| Category | Technology | Purpose |
-|----------|-----------|---------|
-| **Language** | Go 1.24.3 | Backend API implementation |
-| **Framework** | net/http (stdlib) | HTTP server and routing |
-| **Monitoring** | Prometheus | Metrics collection and monitoring |
-| **Containerization** | Docker | Application packaging |
-| **Orchestration** | Kubernetes | Container orchestration and scaling |
-| **CI/CD** | GitHub Actions | Automated testing and deployment |
-| **Testing** | Go testing | Unit and integration tests |
-| **Security** | Trivy | Vulnerability scanning |
-
----
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Go**: Version 1.24.3 or higher ([Download](https://go.dev/dl/))
-- **Docker**: Latest version ([Download](https://www.docker.com/get-started))
-- **kubectl** (Optional): For Kubernetes deployment ([Install](https://kubernetes.io/docs/tasks/tools/))
+- **Go**: 1.24.3 or higher - [Download](https://go.dev/dl/)
+- **Docker**: Latest version - [Download](https://www.docker.com/get-started)
+- **kubectl** (optional): For Kubernetes deployment - [Install](https://kubernetes.io/docs/tasks/tools/)
 
-### Quick Start
-
-#### 1️⃣ Clone the Repository
+### Option 1: Run with Go (Development)
 
 ```
+# Clone repository
 git clone https://github.com/sorabhlahoti/cloud-orchestrator.git
 cd cloud-orchestrator
-```
 
-#### 2️⃣ Run Locally (Development)
-
-```
-# Download dependencies
+# Install dependencies
 go mod download
 
-# Run the application
+# Run application
 go run main.go
+
+# Application starts on http://localhost:8080
 ```
 
-The API will be available at `http://localhost:8080`
-
-#### 3️⃣ Run with Docker
+### Option 2: Run with Docker (Recommended)
 
 ```
 # Build Docker image
@@ -196,16 +181,22 @@ docker build -t cloud-orchestrator:latest .
 
 # Run container
 docker run -p 8080:8080 cloud-orchestrator:latest
+
+# Access at http://localhost:8080
 ```
 
-#### 4️⃣ Verify Installation
+### Verify Installation
 
 ```
 # Check health
 curl http://localhost:8080/health
 
-# Expected output:
-# {"status":"healthy"}
+# Expected: {"status":"healthy"}
+
+# Create a resource
+curl -X POST http://localhost:8080/provision
+
+# Expected: {"id":123456,"name":"resource-123456","created_at":"..."}
 ```
 
 ---
@@ -217,35 +208,48 @@ curl http://localhost:8080/health
 http://localhost:8080
 ```
 
-### Endpoints
+### Endpoints Overview
 
-#### 🏥 Health Check
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/health` | Health check |
+| `POST` | `/provision` | Create new resource |
+| `GET` | `/resources` | List all resources |
+| `DELETE` | `/resources/{id}` | Delete specific resource |
+| `GET` | `/metrics` | Prometheus metrics |
+
+---
+
+### 🏥 Health Check
+
 ```
 GET /health
 ```
 
-**Description**: Check service health status
-
-**Response**:
+**Response:**
 ```
 {
   "status": "healthy"
 }
 ```
 
-**Status Codes**:
-- `200 OK`: Service is healthy
+**Status Codes:**
+- `200 OK` - Service is healthy
+
+**Example:**
+```
+curl http://localhost:8080/health
+```
 
 ---
 
-#### ➕ Provision Resource
+### ➕ Create Resource
+
 ```
 POST /provision
 ```
 
-**Description**: Create a new resource
-
-**Response**:
+**Response:**
 ```
 {
   "id": 123456,
@@ -254,25 +258,24 @@ POST /provision
 }
 ```
 
-**Status Codes**:
-- `201 Created`: Resource successfully created
-- `405 Method Not Allowed`: Invalid HTTP method
+**Status Codes:**
+- `201 Created` - Resource successfully created
+- `405 Method Not Allowed` - Invalid HTTP method
 
-**Example**:
+**Example:**
 ```
 curl -X POST http://localhost:8080/provision
 ```
 
 ---
 
-#### 📋 List Resources
+### 📋 List Resources
+
 ```
 GET /resources
 ```
 
-**Description**: Retrieve all resources
-
-**Response**:
+**Response:**
 ```
 [
   {
@@ -288,35 +291,33 @@ GET /resources
 ]
 ```
 
-**Status Codes**:
-- `200 OK`: Successfully retrieved resources
-- `405 Method Not Allowed`: Invalid HTTP method
+**Status Codes:**
+- `200 OK` - Resources retrieved successfully
 
-**Example**:
+**Example:**
 ```
 curl http://localhost:8080/resources
 ```
 
 ---
 
-#### 🗑️ Delete Resource
+### 🗑️ Delete Resource
+
 ```
 DELETE /resources/{id}
 ```
 
-**Description**: Delete a specific resource by ID
+**Parameters:**
+- `id` (path) - Resource ID to delete
 
-**Parameters**:
-- `id` (path): Resource ID to delete
-
-**Response**:
+**Success Response:**
 ```
 {
   "message": "Deleted resource 123456"
 }
 ```
 
-**Error Response**:
+**Error Response:**
 ```
 {
   "error": "Resource not found",
@@ -324,47 +325,42 @@ DELETE /resources/{id}
 }
 ```
 
-**Status Codes**:
-- `200 OK`: Resource successfully deleted
-- `400 Bad Request`: Invalid resource ID format
-- `404 Not Found`: Resource does not exist
-- `405 Method Not Allowed`: Invalid HTTP method
+**Status Codes:**
+- `200 OK` - Resource deleted
+- `400 Bad Request` - Invalid ID format
+- `404 Not Found` - Resource doesn't exist
+- `405 Method Not Allowed` - Invalid HTTP method
 
-**Examples**:
+**Examples:**
 ```
-# Delete resource with ID 123456
+# Delete resource
 curl -X DELETE http://localhost:8080/resources/123456
 
-# Invalid ID (returns 400)
+# Invalid ID
 curl -X DELETE http://localhost:8080/resources/abc
+# Returns: 400 Bad Request
 ```
 
 ---
 
-#### 📊 Prometheus Metrics
+### 📊 Prometheus Metrics
+
 ```
 GET /metrics
 ```
 
-**Description**: Export Prometheus-compatible metrics
+**Metrics Exposed:**
 
-**Metrics Exposed**:
-- `http_requests_total{method, endpoint, status}`: Total HTTP requests
-- `resources_provisioned_total`: Total resources created
-- `active_resources`: Current number of active resources
+| Metric | Type | Description |
+|--------|------|-------------|
+| `http_requests_total` | Counter | Total HTTP requests by method/endpoint/status |
+| `resources_provisioned_total` | Counter | Total resources created |
+| `active_resources` | Gauge | Current active resources |
 
-**Response Format**: Prometheus text-based exposition format
-
-**Example**:
-```
-curl http://localhost:8080/metrics
-```
-
-**Sample Output**:
+**Example Output:**
 ```
 # HELP http_requests_total Total number of HTTP requests
 # TYPE http_requests_total counter
-http_requests_total{endpoint="/",method="GET",status="200"} 15
 http_requests_total{endpoint="/provision",method="POST",status="200"} 5
 
 # HELP resources_provisioned_total Total number of resources provisioned
@@ -376,24 +372,10 @@ resources_provisioned_total 5
 active_resources 3
 ```
 
----
-
-### Error Responses
-
-All error responses follow this format:
-
+**Example:**
 ```
-{
-  "error": "Error Type",
-  "message": "Detailed error description"
-}
+curl http://localhost:8080/metrics
 ```
-
-**Common Error Status Codes**:
-- `400 Bad Request`: Invalid input or malformed request
-- `404 Not Found`: Resource does not exist
-- `405 Method Not Allowed`: Incorrect HTTP method
-- `500 Internal Server Error`: Server-side error
 
 ---
 
@@ -401,28 +383,42 @@ All error responses follow this format:
 
 ### Docker Deployment
 
-#### Build Image
-```
-docker build -t cloud-orchestrator:latest .
-```
+#### Build & Run
 
-#### Run Container
 ```
+# Build image
+docker build -t cloud-orchestrator:latest .
+
+# Run container
 docker run -d \
   --name orchestrator \
   -p 8080:8080 \
   cloud-orchestrator:latest
-```
 
-#### View Logs
-```
+# View logs
 docker logs -f orchestrator
+
+# Stop container
+docker stop orchestrator
 ```
 
-#### Stop Container
+#### Docker Compose (Optional)
+
+Create `docker-compose.yml`:
+
 ```
-docker stop orchestrator
-docker rm orchestrator
+version: '3.8'
+services:
+  orchestrator:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+```
+
+Run:
+```
+docker-compose up -d
 ```
 
 ---
@@ -430,55 +426,43 @@ docker rm orchestrator
 ### Kubernetes Deployment
 
 #### Prerequisites
-- Running Kubernetes cluster (minikube, Docker Desktop, or cloud provider)
-- `kubectl` configured with cluster access
+- Kubernetes cluster (minikube, Docker Desktop with K8s, or cloud provider)
+- `kubectl` configured
 
-#### Deploy Application
+#### Deploy
 
 ```
-# Apply deployment configuration
+# Apply configurations
 kubectl apply -f k8s/deployment.yaml
-
-# Apply service configuration
 kubectl apply -f k8s/service.yaml
-```
 
-#### Verify Deployment
-
-```
-# Check pod status
+# Check deployment
 kubectl get pods
+kubectl get services
 
 # Expected output:
 # NAME                                  READY   STATUS    RESTARTS   AGE
 # cloud-orchestrator-xxxxx              1/1     Running   0          30s
 # cloud-orchestrator-yyyyy              1/1     Running   0          30s
-
-# Check service
-kubectl get services
-
-# Get detailed pod information
-kubectl describe pod cloud-orchestrator-xxxxx
 ```
 
 #### Access Application
 
-**LoadBalancer (Cloud providers):**
-```
-kubectl get services cloud-orchestrator
-# Note the EXTERNAL-IP and access at http://EXTERNAL-IP
-```
-
-**NodePort (Local/Minikube):**
-```
-minikube service cloud-orchestrator
-# Opens browser automatically
-```
-
-**Port Forward (Development):**
+**Using Port Forward (Development):**
 ```
 kubectl port-forward service/cloud-orchestrator 8080:80
 curl http://localhost:8080/health
+```
+
+**Using LoadBalancer (Cloud):**
+```
+kubectl get services cloud-orchestrator
+# Note EXTERNAL-IP and access at http://EXTERNAL-IP
+```
+
+**Using Minikube:**
+```
+minikube service cloud-orchestrator
 ```
 
 #### Scale Deployment
@@ -487,31 +471,18 @@ curl http://localhost:8080/health
 # Scale to 5 replicas
 kubectl scale deployment cloud-orchestrator --replicas=5
 
-# Verify scaling
-kubectl get pods -w
+# Verify
+kubectl get pods
 ```
 
 #### View Logs
 
 ```
-# Logs from all pods
+# All pods
 kubectl logs -l app=cloud-orchestrator
 
-# Logs from specific pod
-kubectl logs cloud-orchestrator-xxxxx
-
-# Follow logs
-kubectl logs -f cloud-orchestrator-xxxxx
-```
-
-#### Update Deployment
-
-```
-# Edit deployment
-kubectl edit deployment cloud-orchestrator
-
-# Or apply updated YAML
-kubectl apply -f k8s/deployment.yaml
+# Specific pod
+kubectl logs cloud-orchestrator-xxxxx -f
 ```
 
 #### Delete Deployment
@@ -525,34 +496,43 @@ kubectl delete -f k8s/service.yaml
 
 ### Kubernetes Configuration Details
 
-#### Deployment Features
-
+**Deployment Features:**
 - **Replicas**: 2 instances for high availability
 - **Health Probes**:
-  - **Liveness**: Checks `/health` every 10s
-  - **Readiness**: Checks `/health` every 5s
+  - Liveness: `/health` every 10s
+  - Readiness: `/health` every 5s
 - **Resource Limits**:
-  - Memory: 128Mi max
-  - CPU: 500m (0.5 cores) max
-- **Annotations**: Prometheus scraping enabled
+  - Memory: 64Mi request, 128Mi limit
+  - CPU: 250m request, 500m limit
+- **Prometheus**: Auto-discovery annotations enabled
 
-#### Service Configuration
-
-- **Type**: LoadBalancer (change to ClusterIP for internal-only access)
-- **Port Mapping**: External 80 → Internal 8080
-- **Selector**: Routes traffic to pods with `app: cloud-orchestrator` label
+**Service Configuration:**
+- **Type**: LoadBalancer
+- **Port**: 80 (external) → 8080 (internal)
+- **Selector**: `app: cloud-orchestrator`
 
 ---
 
 ## 📊 Monitoring
 
-### Prometheus Integration
+### Prometheus Setup
 
-The application exposes metrics at `/metrics` endpoint in Prometheus format.
+The application exposes metrics at `/metrics` compatible with Prometheus.
 
-#### Metrics Available
+#### Prometheus Configuration
 
-| Metric Name | Type | Description |
-|------------|------|-------------|
-| `http_requests_total` | Counter | Total HTTP requests by method, endpoint, status |
-| `resources_provisioned_
+```
+# prometheus/prometheus.yaml
+scrape_configs:
+  - job_name: 'cloud-orchestrator'
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+```
+
+#### Key Metrics
+
+```
