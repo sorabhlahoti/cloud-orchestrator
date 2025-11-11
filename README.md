@@ -1,4 +1,5 @@
-```markdown
+
+````markdown
 # Cloud Resource Orchestrator 🚀
 
 [![CI/CD Pipeline](https://github.com/sorabhlahoti/cloud-orchestrator/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/sorabhlahoti/cloud-orchestrator/actions/workflows/ci-cd.yaml)
@@ -68,14 +69,14 @@ The **Cloud Resource Orchestrator** is a RESTful API service that demonstrates c
 
 ## 🛠️ Technology Stack
 
-- **Language:** Go 1.24.3
-- **Framework:** Standard library (net/http)
-- **Monitoring:** Prometheus
-- **Containerization:** Docker
-- **Orchestration:** Kubernetes
-- **CI/CD:** GitHub Actions
-- **Testing:** Go testing framework
-- **Security:** Trivy scanner
+- **Language:** Go 1.24.3  
+- **Framework:** Standard library (net/http)  
+- **Monitoring:** Prometheus  
+- **Containerization:** Docker  
+- **Orchestration:** Kubernetes  
+- **CI/CD:** GitHub Actions  
+- **Testing:** Go testing framework  
+- **Security:** Trivy scanner  
 
 ---
 
@@ -89,7 +90,7 @@ The **Cloud Resource Orchestrator** is a RESTful API service that demonstrates c
 
 ### Local Development
 
-```
+```bash
 # Clone repository
 git clone https://github.com/sorabhlahoti/cloud-orchestrator.git
 cd cloud-orchestrator
@@ -101,11 +102,11 @@ go mod download
 go run main.go
 
 # Application starts on http://localhost:8080
-```
+````
 
 ### Test the API
 
-```
+```bash
 # Check health
 curl http://localhost:8080/health
 
@@ -127,26 +128,28 @@ curl http://localhost:8080/metrics
 ## 📡 API Endpoints
 
 ### Health Check
-```
+
+```bash
 GET /health
 ```
-Returns service health status.
 
 **Response:**
-```
+
+```json
 {"status":"healthy"}
 ```
 
 ---
 
 ### Create Resource
-```
+
+```bash
 POST /provision
 ```
-Creates a new resource.
 
 **Response:**
-```
+
+```json
 {
   "id": 123456,
   "name": "resource-123456",
@@ -154,20 +157,17 @@ Creates a new resource.
 }
 ```
 
-**Status Codes:**
-- `201 Created` - Success
-- `405 Method Not Allowed` - Invalid method
-
 ---
 
 ### List Resources
-```
+
+```bash
 GET /resources
 ```
-Returns all resources.
 
 **Response:**
-```
+
+```json
 [
   {
     "id": 123456,
@@ -180,41 +180,30 @@ Returns all resources.
 ---
 
 ### Delete Resource
-```
+
+```bash
 DELETE /resources/{id}
 ```
-Deletes a specific resource by ID.
 
-**Success Response:**
-```
+**Response:**
+
+```json
 {"message": "Deleted resource 123456"}
 ```
-
-**Error Response:**
-```
-{
-  "error": "Resource not found",
-  "message": "Resource with ID 123456 does not exist"
-}
-```
-
-**Status Codes:**
-- `200 OK` - Deleted successfully
-- `400 Bad Request` - Invalid ID
-- `404 Not Found` - Resource doesn't exist
 
 ---
 
 ### Prometheus Metrics
-```
+
+```bash
 GET /metrics
 ```
-Returns Prometheus-compatible metrics.
 
 **Key Metrics:**
-- `http_requests_total` - Total HTTP requests
-- `resources_provisioned_total` - Total resources created
-- `active_resources` - Current active resources
+
+* `http_requests_total`
+* `resources_provisioned_total`
+* `active_resources`
 
 ---
 
@@ -222,26 +211,14 @@ Returns Prometheus-compatible metrics.
 
 ### Build and Run
 
-```
-# Build Docker image
+```bash
 docker build -t cloud-orchestrator:latest .
-
-# Run container
 docker run -d -p 8080:8080 --name orchestrator cloud-orchestrator:latest
-
-# View logs
-docker logs -f orchestrator
-
-# Stop and remove
-docker stop orchestrator
-docker rm orchestrator
 ```
 
 ### Docker Compose
 
-Create `docker-compose.yml`:
-
-```
+```yaml
 version: '3.8'
 services:
   orchestrator:
@@ -251,8 +228,9 @@ services:
     restart: unless-stopped
 ```
 
-Run with:
-```
+Run:
+
+```bash
 docker-compose up -d
 ```
 
@@ -260,73 +238,35 @@ docker-compose up -d
 
 ## ☸️ Kubernetes Deployment
 
-### Deploy to Kubernetes
-
-```
-# Apply deployment and service
+```bash
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
-
-# Check status
 kubectl get pods
 kubectl get services
-
-# View logs
-kubectl logs -l app=cloud-orchestrator
-
-# Scale replicas
-kubectl scale deployment cloud-orchestrator --replicas=5
 ```
-
-### Access the Application
 
 **Port Forward (Development):**
-```
+
+```bash
 kubectl port-forward service/cloud-orchestrator 8080:80
 curl http://localhost:8080/health
-```
-
-**LoadBalancer (Cloud):**
-```
-kubectl get services
-# Access via EXTERNAL-IP
-```
-
-**Minikube:**
-```
-minikube service cloud-orchestrator
-```
-
-### Delete Deployment
-
-```
-kubectl delete -f k8s/deployment.yaml
-kubectl delete -f k8s/service.yaml
 ```
 
 ---
 
 ## 📊 Monitoring
 
-### Prometheus Metrics
+The application exposes metrics at `/metrics` endpoint.
 
-The application exposes metrics at `/metrics` endpoint in Prometheus format.
+Example:
 
-**Available Metrics:**
-- `http_requests_total{method, endpoint, status}` - Request counter
-- `resources_provisioned_total` - Total resources created
-- `active_resources` - Current resource count
-
-**Example:**
-```
+```bash
 curl http://localhost:8080/metrics
 ```
 
-### Kubernetes Monitoring
+Prometheus can scrape metrics using deployment annotations:
 
-Prometheus can automatically discover and scrape metrics using the annotations in the deployment manifest:
-
-```
+```yaml
 annotations:
   prometheus.io/scrape: "true"
   prometheus.io/port: "8080"
@@ -337,45 +277,26 @@ annotations:
 
 ## 🧪 Testing
 
-### Run Tests
-
-```
-# Run all tests
+```bash
 go test -v
-
-# Run with coverage
 go test -v -coverprofile=coverage.out
-
-# View coverage report
 go tool cover -html=coverage.out
 ```
-
-### Test Coverage
-
-The project includes unit tests for:
-- Health check handler
-- Resource provisioning
-- Resource listing
-- Resource deletion
-- Error handling scenarios
 
 ---
 
 ## 🔄 CI/CD Pipeline
 
-The project uses GitHub Actions for automated testing and deployment.
+**Stages:**
 
-**Pipeline Stages:**
+1. Test
+2. Build
+3. Docker
+4. Lint
+5. Security Scan
 
-1. **Test** - Runs unit tests with coverage reporting
-2. **Build** - Compiles Go binary
-3. **Docker** - Builds and tests Docker image
-4. **Lint** - Checks code formatting (gofmt, go vet)
-5. **Security** - Scans for vulnerabilities with Trivy
-
-**Trigger:** Automatic on every push to `main` branch
-
-**View Status:** Check the Actions tab in GitHub repository
+Triggered on every push to `main`.
+View pipeline in GitHub Actions tab.
 
 ---
 
@@ -383,44 +304,41 @@ The project uses GitHub Actions for automated testing and deployment.
 
 ```
 cloud-orchestrator/
-├── main.go                    # Main application code
-├── main_test.go              # Unit tests
-├── go.mod                    # Go module definition
-├── go.sum                    # Go dependencies
-├── Dockerfile                # Docker build instructions
-├── README.md                 # Project documentation
+├── main.go
+├── main_test.go
+├── go.mod
+├── go.sum
+├── Dockerfile
+├── README.md
 ├── k8s/
-│   ├── deployment.yaml       # Kubernetes deployment config
-│   └── service.yaml          # Kubernetes service config
+│   ├── deployment.yaml
+│   └── service.yaml
 ├── prometheus/
-│   └── prometheus.yaml       # Prometheus configuration
+│   └── prometheus.yaml
 └── .github/
     └── workflows/
-        └── ci-cd.yaml        # CI/CD pipeline
+        └── ci-cd.yaml
 ```
 
 ---
 
 ## 🚀 Future Enhancements
 
-**Potential improvements for production use:**
-
-- Add persistent storage (PostgreSQL/Redis) instead of in-memory map
-- Implement JWT authentication for API endpoints
-- Add API rate limiting to prevent abuse
-- Implement API versioning (e.g., `/api/v1/resources`)
-- Add distributed tracing with Jaeger or OpenTelemetry
-- Implement graceful shutdown handling
-- Add more comprehensive error handling and validation
-- Create OpenAPI/Swagger documentation
-- Add integration tests for end-to-end scenarios
-- Implement actual cloud provider integration (AWS/Azure/GCP)
+* Add PostgreSQL or Redis storage
+* JWT authentication
+* API rate limiting
+* API versioning
+* Distributed tracing (Jaeger/OpenTelemetry)
+* Graceful shutdown
+* Swagger documentation
+* Integration tests
+* Cloud provider integration
 
 ---
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License — see [LICENSE](LICENSE).
 
 ---
 
@@ -428,53 +346,21 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 **Sorabh Lahoti**
 
-- GitHub: [@sorabhlahoti](https://github.com/sorabhlahoti)
-- Project Link: [https://github.com/sorabhlahoti/cloud-orchestrator](https://github.com/sorabhlahoti/cloud-orchestrator)
-
----
-
-## 🙏 Acknowledgments
-
-- Built with [Go](https://go.dev/)
-- Containerized with [Docker](https://www.docker.com/)
-- Orchestrated with [Kubernetes](https://kubernetes.io/)
-- Monitored with [Prometheus](https://prometheus.io/)
+* GitHub: [@sorabhlahoti](https://github.com/sorabhlahoti)
+* Project: [https://github.com/sorabhlahoti/cloud-orchestrator](https://github.com/sorabhlahoti/cloud-orchestrator)
 
 ---
 
 ## 📚 Learning Resources
 
-If you want to understand the technologies used in this project:
-
-- **Go Basics:** [Official Go Tutorial](https://go.dev/tour/)
-- **REST APIs:** [REST API Tutorial](https://restfulapi.net/)
-- **Docker:** [Docker Getting Started](https://docs.docker.com/get-started/)
-- **Kubernetes:** [Kubernetes Basics](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
-- **Prometheus:** [Prometheus Documentation](https://prometheus.io/docs/introduction/overview/)
+* [Go Tour](https://go.dev/tour/)
+* [REST API Tutorial](https://restfulapi.net/)
+* [Docker Docs](https://docs.docker.com/get-started/)
+* [Kubernetes Basics](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
+* [Prometheus Docs](https://prometheus.io/docs/introduction/overview/)
 
 ---
 
 **⭐ If you find this project helpful, please consider giving it a star!**
-```
 
-***
-
-## ✅ **What's Included:**
-
-- Professional badges at the top
-- Clear table of contents
-- Simple explanations without complex diagrams
-- All necessary commands
-- Clean formatting
-- Easy to read sections
-- Future enhancements section
-- Learning resources
-
-## 🎯 **This README Shows:**
-
-- You understand the full stack
-- You can document professionally
-- You follow best practices
-- You're thinking about production
-- You're open to improvements
 
