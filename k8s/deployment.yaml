@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-orchestrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-orchestrator
+  template:
+    metadata:
+      labels:
+        app: cloud-orchestrator
+    spec:
+      containers:
+      - name: orchestrator
+        image: cloud-orchestrator:latest
+        ports:
+        - containerPort: 8080
